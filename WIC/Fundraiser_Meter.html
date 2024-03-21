@@ -353,61 +353,10 @@
 
     </div>
 
-   <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
-    <script type="text/javascript">
-           var value =  0;
 
-        jQuery(document).ready(function ($) {
-           // $('#layout-1-field-progress-amount').val(50000);
-
-            getStats();
-           
-            $('#layout-1-field-progress-amount').val(value);
-
-        });
-
-        function getStats() {
-            var url = 'https://cors-anywhere.herokuapp.com/https://us.mohid.co/ma/worcester/wic/masjid/widget/api/index/?m=ajax_get_campaign_card_instant_details&_campaign_id=1517';
-$.ajax({
-    url: url,
-    async: false,
-    headers: {
-        'origin': 'https://sheikhnobi.github.io' // Replace with the origin of your website
-    },
-    success: function(data) {
-     
-        value = jQuery.parseJSON(data)[0].total_amount;
-        value = parseInt(value.replace('$', '').replace(',', ''))
-    
-                 
-    }
-});
-
-               return;
-                $.ajax({
-                    type: "GET",
-                    cache: false,
-                    global: false,
-                    url: ajax_url,
-                    data: { _campaign_id: 1517 },
-                    dataType: "json",
-                    error: function () {
-
-                    },
-                    success: function (data) {
-                        $.each(data, function (i, det) {
-                            alert(det.total_amount);
-                          
-                        });
-                    }
-                });
-            interval = setInterval(function () {
-             
-
-            }, 5000);
-        }
-    </script>
     <script type="text/javascript" id="app-js-extra">
         /* <![CDATA[ */
         var Causevox = { "ip_address": "97.135.100.249", "ajax": { "url": "https:\/\/www.causevox.com\/wp-admin\/admin-ajax.php", "nonce": "da6e643f36" } };
@@ -468,7 +417,41 @@ $.ajax({
         });
     </script>
 
+    <script type="text/javascript">
+      //  var value = 0;
 
+       // jQuery(document).ready(function ($) {
+            // $('#layout-1-field-progress-amount').val(50000);
+   
+            getStats();
+
+            
+
+           // setInterval(function () { getStats();  }, 5000);
+
+           //setInterval(page_refresh, 5000); //NOTE: period is passed in milliseconds
+           setTimeout("window.open(self.location, '_self');", 5*60000);
+
+     //   });
+
+        function getStats() {
+            var url = 'https://cors-anywhere.herokuapp.com/https://us.mohid.co/ma/worcester/wic/masjid/widget/api/index/?m=ajax_get_campaign_card_instant_details&_campaign_id=1517';
+            $.ajax({
+                url: url,
+                async: false,
+                headers: {
+                    'origin': 'https://your-website.com' // Replace with the origin of your website
+                },
+                success: function (data) {
+
+                    var value = jQuery.parseJSON(data)[0].total_amount;
+                    value = parseInt(value.replace('$', '').replace(',', ''))
+                    $('#layout-1-field-progress-amount').val(value);
+                }
+            });
+
+        }
+    </script>
 
 </body>
 
