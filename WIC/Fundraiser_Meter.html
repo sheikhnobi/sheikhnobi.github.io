@@ -1,0 +1,416 @@
+<!-- saved from url=(0049)https://www.causevox.com/fundraising-thermometer/ -->
+<html class="js" lang="en-US">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Trirong">
+    <style>
+        * {
+            font-family: "Trirong" !important
+        }
+
+        #allControls {
+            display: block;
+        }
+
+        #controlsColor {
+            display: none;
+        }
+
+        #controlsTotalAmount {
+            display: none;
+        }
+
+        #controlsRaisedAmount {
+            display: block;
+        }
+
+        .svg-amount-textarea, .svg-percent-textarea, .svg-goal-textarea
+        {
+            font-size: 55px !important;
+        }
+
+        .t-container {
+            padding-top: 0px;
+            padding-bottom: 100px;
+            position: relative;
+        }
+
+        .instructions {
+            margin: 0 auto;
+            max-width: 80%;
+        }
+
+        .instructions p {
+            margin: 25px 0;
+        }
+
+        .instructions-top {
+            margin-bottom: 40px;
+        }
+
+        .instructions-bottom {
+            margin-top: 80px;
+        }
+
+        @media screen and (max-width: 768px) {
+            .t-container {
+                padding-top: 100px;
+                padding-bottom: 50px;
+            }
+
+            .instructions {
+                max-width: none;
+            }
+        }
+    </style>
+
+
+
+
+
+
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+
+    <!-- This site is optimized with the Yoast SEO plugin v20.8 - https://yoast.com/wordpress/plugins/seo/ -->
+    <title>WIC Ramadan Fundraiser</title>
+
+
+    <link rel="stylesheet" id="fundraising-thermometer-front-style-main-css" href="./resources/main.min.css"
+        type="text/css" media="all">
+    <link rel="stylesheet" id="app-css" href="./resources/app.css" type="text/css" media="all">
+    <script type="text/javascript" src="./resources/main.min.js.download"
+        id="fundraising-thermometer-front-script-main-js"></script>
+
+
+    <meta name="msapplication-TileImage"
+        content="https://www.causevox.com/wp-content/uploads/2019/05/cropped-cv-logo-270x270.png">
+    <script src="./resources/lottie.min.js.download" defer=""></script>
+</head>
+
+<body
+    class="page-template page-template-template-themometer page-template-template-themometer-php page page-id-45387 wp-custom-logo">
+    <div id="app">
+        <div class="t-container wrapper container container--large_1 container--center pos-relative">
+            <div style="display: none;" class="instructions instructions-top">
+                <h1 class="has-text-align-center"><strong>WIC - Fundraiser Progress</strong></h1>
+
+            </div>
+            <div class="fundraising-thermometer-wizard"
+                data-embed-api-url="https://www.causevox.com/api/fundraising-thermometer/embed">
+                <div class="wizard">
+                    <div id="allControls" class="controls">
+                        <div class="layouts-controls">
+                            <form class="layout-controls layout-1 active" method="POST"
+                                action="https://www.causevox.com/wp-admin/admin-ajax.php" data-handler="form.wizard"
+                                data-layout="1">
+                                <div id="controlsColor" class="control control-input"><label
+                                        for="layout-1-field-fill-color">Fill
+                                        Color</label>
+                                    <div class="input-with-helper"><input id="layout-1-field-fill-color"
+                                            class="control-field" type="text" name="fill-color" value="#06ba33"
+                                            placeholder="Fill Color" data-handler="color.picker"
+                                            data-validate="color"><svg class="helper" viewBox="0 0 24 24">
+                                            <path fill="currentColor"
+                                                d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z">
+                                            </path>
+                                        </svg>
+                                        <div class="helper-info">Select the inside color of your thermometer.</div>
+                                    </div>
+                                    <div class="color-picker">
+                                        <div class="hue">
+                                            <div class="picker"
+                                                style="left: 1.66667%; background-color: rgb(255, 27, 0);"></div><canvas
+                                                width="1000" height="100"></canvas>
+                                        </div>
+                                        <div class="palette">
+                                            <div class="picker"
+                                                style="left: 64.94%; top: 9.41%; background-color: rgb(231, 97, 81);">
+                                            </div><canvas width="1000" height="1000" style="opacity: 1;"></canvas>
+                                        </div>
+                                        <div class="alpha">
+                                            <div class="picker" style="left: 0%; background-color: rgb(255, 27, 0);">
+                                            </div><canvas width="1000" height="50"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="controlsTotalAmount" class="control control-input"><label
+                                        for="layout-1-field-goal-amount">Goal
+                                        Amount</label>
+                                    <div class="input-with-helper"><input id="layout-1-field-goal-amount"
+                                            class="control-field" type="text" name="goal-amount" value="430000"
+                                            placeholder="Goal Amount" data-validate="int" data-required=""><svg
+                                            class="helper" viewBox="0 0 24 24">
+                                            <path fill="currentColor"
+                                                d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z">
+                                            </path>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div id="controlsRaisedAmount" class="control control-input open"><label
+                                        for="layout-1-field-progress-amount"  style="opacity: 0%;">Progress Amount</label>
+                                    <div class="input-with-helper"><input id="layout-1-field-progress-amount"
+                                            class="control-field" type="text" value="0" name="progress-amount"
+                                            placeholder="" data-validate="int" data-required=""  style="opacity: 30%;"><svg
+                                            class="helper" viewBox="0 0 24 24">
+                                        </svg>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h2 class="has-text-align-center" style="text-align: center; color: crimson;"><strong>SCAN TO DONATE OR PLEDGE</strong></h2>
+                                    <img src=".\resources\qr.png" style="margin-left: auto; margin-right: auto;display: block; width: 90%; height: 90%;"/>
+                                </div>
+
+                                <div id="displayOptions" style="display: none;">
+                                    <span class="control-section">Display Options</span>
+                                    <div class="control control-checkbox"><input id="layout-1-field-show-goal-amount"
+                                            class="control-field" type="checkbox" name="show-goal-amount" value="1"
+                                            checked><label for="layout-1-field-show-goal-amount">Show Goal
+                                            Amount</label></div>
+                                    <div class="control control-checkbox"><input
+                                            id="layout-1-field-show-progress-percentage" class="control-field"
+                                            type="checkbox" name="show-progress-percentage" value="1" checked><label
+                                            for="layout-1-field-show-progress-percentage">Show Progress
+                                            Percentage</label>
+                                    </div>
+                                    <div class="control control-checkbox"><input
+                                            id="layout-1-field-show-progress-amount" class="control-field"
+                                            type="checkbox" name="show-progress-amount" value="1" checked><label
+                                            for="layout-1-field-show-progress-amount">Show Progress
+                                            Amount</label></div>
+                                    <div class="control control-checkbox open"><input
+                                            id="layout-1-field-dark-background-mode" class="control-field"
+                                            type="checkbox" name="dark-background-mode" value="1" checked><label
+                                            for="layout-1-field-dark-background-mode">Dark Background Mode</label></div>
+                                    <div class="control control-checkbox">
+                                        <div class="input-with-helper"><input id="layout-1-field-animate-progress-fill"
+                                                class="control-field" type="checkbox" name="animate-progress-fill"
+                                                value="1" checked><label
+                                                for="layout-1-field-animate-progress-fill">Animate Progress
+                                                Fill</label><svg class="helper" viewBox="0 0 24 24">
+                                                <path fill="currentColor"
+                                                    d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z">
+                                                </path>
+                                            </svg>
+                                            <div class="helper-info">Only available in embed.</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <input type="hidden" id="nonce" name="nonce" value="6653537541"><input type="hidden"
+                                    name="_wp_http_referer" value="/fundraising-thermometer/"><input type="hidden"
+                                    name="layout" value="1"><input type="hidden" name="action"
+                                    value="form_fundraising_thermometer_wizard">
+                            </form>
+                        </div>
+                    </div>
+                    <div class="preview" style="width: 50% !important">
+                        <div id="capture" class="layout-preview layout-1 active"
+                            data-handler="layout.preview,layout.layout_1" data-layout="1"><svg class="style-2 animate"
+                                viewBox="-0 -0 800 1050">
+                                <g class="svg-thermometer-fill">
+                                    <rect class="svg-thermometer-fill-filled" x="293.808" y="173.581" width="212.401"
+                                        height="680.294" style="fill: rgb(231, 97, 81);"></rect>
+                                    <rect class="svg-thermometer-fill-empty" x="293.808" y="173.581" width="212.401"
+                                        style="height: 432px;"></rect>
+                                </g>
+                                <path class="svg-thermometer-background" d="M0,0v1050h800L799.998,0H0z M400,882.365L400,882.365c-74.386,0-134.688-60.301-134.688-134.688
+    c0.001-40.934,18.617-79.645,50.594-105.205v-415.6c0,0,0,0,0-0.001c0.001-46.443,37.649-84.093,84.094-84.093
+    c46.443,0,84.092,37.651,84.09,84.095v415.6c31.979,25.563,50.596,64.271,50.596,105.205
+    C534.688,822.061,474.385,882.365,400,882.365z"></path>
+                                <g class="svg-thermometer">
+                                    <path class="svg-thermometer-reflection" d="M377.475,837.764c-0.524,0-1.052-0.067-1.561-0.207c-24.003-6.432-44.069-21.828-56.497-43.354
+        c-12.426-21.523-15.728-46.6-9.296-70.607c0.703-2.625,3.094-4.461,5.813-4.461c0.523,0,1.046,0.068,1.554,0.203
+        c3.209,0.859,5.118,4.166,4.261,7.371c-5.602,20.904-2.728,42.736,8.093,61.479c10.82,18.74,28.29,32.146,49.191,37.744
+        c3.207,0.861,5.113,4.168,4.255,7.371C382.584,835.93,380.194,837.764,377.475,837.764z"></path>
+                                    <g class="svg-thermometer">
+                                        <path class="svg-thermometer-unit" d="M374.591,619.631H344.42c-1.781,0-3.229-1.449-3.229-3.229c0-1.781,1.446-3.23,3.229-3.23h30.171
+        c1.781,0,3.229,1.447,3.229,3.23C377.821,618.182,376.371,619.631,374.591,619.631z"></path>
+                                        <path class="svg-thermometer-unit" d="M362.291,600.369H332.12c-1.335,0-2.421-1.086-2.421-2.422c0-1.334,1.086-2.42,2.421-2.42h30.171
+        c1.335,0,2.422,1.086,2.422,2.42C364.712,599.283,363.627,600.369,362.291,600.369z"></path>
+                                        <path class="svg-thermometer-unit" d="M374.591,582.723H344.42c-1.781,0-3.229-1.446-3.229-3.229s1.446-3.229,3.229-3.229h30.171
+        c1.781,0,3.229,1.447,3.229,3.229S376.371,582.723,374.591,582.723z M374.592,579.494h-30.173H374.592z"></path>
+                                        <path class="svg-thermometer-unit" d="M362.291,563.463H332.12c-1.335,0-2.421-1.086-2.421-2.422c0-1.334,1.086-2.422,2.421-2.422h30.171
+        c1.335,0,2.422,1.088,2.422,2.422C364.712,562.377,363.627,563.463,362.291,563.463z"></path>
+                                        <path class="svg-thermometer-unit" d="M374.591,545.818H344.42c-1.781,0-3.229-1.449-3.229-3.229c0-1.781,1.446-3.229,3.229-3.229h30.171
+        c1.781,0,3.229,1.446,3.229,3.229S376.371,545.818,374.591,545.818z M374.592,542.59h-30.173H374.592z"></path>
+                                        <path class="svg-thermometer-unit" d="M362.291,526.559H332.12c-1.335,0-2.421-1.088-2.421-2.422c0-1.336,1.086-2.422,2.421-2.422h30.171
+        c1.335,0,2.422,1.086,2.422,2.422C364.712,525.47,363.627,526.559,362.291,526.559z"></path>
+                                        <path class="svg-thermometer-unit"
+                                            d="M374.591,508.913H344.42c-1.781,0-3.229-1.447-3.229-3.229c0-1.78,1.446-3.229,3.229-3.229h30.171
+        c1.781,0,3.229,1.447,3.229,3.229C377.821,507.463,376.371,508.913,374.591,508.913z M374.592,505.684h-30.173H374.592z"></path>
+                                        <path class="svg-thermometer-unit" d="M362.291,489.655H332.12c-1.335,0-2.421-1.087-2.421-2.422c0-1.336,1.086-2.424,2.421-2.424h30.171
+        c1.335,0,2.422,1.088,2.422,2.424S363.627,489.655,362.291,489.655z"></path>
+                                        <path class="svg-thermometer-unit"
+                                            d="M374.591,472.012H344.42c-1.781,0-3.229-1.446-3.229-3.229c0-1.78,1.446-3.229,3.229-3.229h30.171
+        c1.781,0,3.229,1.448,3.229,3.229C377.821,470.563,376.371,472.012,374.591,472.012z M374.592,468.783h-30.173H374.592z"></path>
+                                        <path class="svg-thermometer-unit" d="M362.291,452.754H332.12c-1.335,0-2.421-1.086-2.421-2.422c0-1.335,1.086-2.421,2.421-2.421h30.171
+        c1.335,0,2.422,1.086,2.422,2.421C364.712,451.668,363.627,452.754,362.291,452.754z"></path>
+                                        <path class="svg-thermometer-unit" d="M374.591,435.112H344.42c-1.781,0-3.229-1.448-3.229-3.229s1.446-3.229,3.229-3.229h30.171
+        c1.781,0,3.229,1.446,3.229,3.229S376.371,435.112,374.591,435.112z M374.592,431.883h-30.173H374.592z"></path>
+                                        <path class="svg-thermometer-unit" d="M362.291,415.856H332.12c-1.335,0-2.421-1.09-2.421-2.424c0-1.336,1.086-2.422,2.421-2.422h30.171
+        c1.335,0,2.422,1.086,2.422,2.422S363.627,415.856,362.291,415.856z"></path>
+                                        <path class="svg-thermometer-unit"
+                                            d="M374.591,398.213H344.42c-1.781,0-3.229-1.448-3.229-3.229s1.446-3.229,3.229-3.229h30.171
+        c1.781,0,3.229,1.448,3.229,3.229C377.821,396.766,376.371,398.213,374.591,398.213z M374.592,394.985h-30.173H374.592z"></path>
+                                        <path class="svg-thermometer-unit" d="M362.291,378.958H332.12c-1.335,0-2.421-1.087-2.421-2.422s1.086-2.421,2.421-2.421h30.171
+        c1.335,0,2.422,1.086,2.422,2.421S363.627,378.958,362.291,378.958z"></path>
+                                        <path class="svg-thermometer-unit"
+                                            d="M374.591,361.316H344.42c-1.781,0-3.229-1.448-3.229-3.229c0-1.781,1.446-3.229,3.229-3.229h30.171
+        c1.781,0,3.229,1.447,3.229,3.229C377.82,359.869,376.371,361.316,374.591,361.316z M374.592,358.086h-30.173H374.592z"></path>
+                                        <path class="svg-thermometer-unit" d="M362.291,342.058H332.12c-1.335,0-2.421-1.086-2.421-2.421s1.086-2.422,2.421-2.422h30.171
+        c1.335,0,2.422,1.086,2.422,2.422C364.712,340.97,363.627,342.058,362.291,342.058z"></path>
+                                        <path class="svg-thermometer-unit"
+                                            d="M374.591,324.416H344.42c-1.781,0-3.229-1.448-3.229-3.229c0-1.78,1.446-3.229,3.229-3.229h30.171
+        c1.781,0,3.229,1.448,3.229,3.229C377.821,322.967,376.371,324.416,374.591,324.416z M374.592,321.186h-30.173H374.592z"></path>
+                                        <path class="svg-thermometer-unit" d="M362.291,305.159H332.12c-1.335,0-2.421-1.087-2.421-2.422s1.086-2.422,2.421-2.422h30.171
+        c1.335,0,2.422,1.086,2.422,2.422C364.712,304.072,363.627,305.159,362.291,305.159z"></path>
+                                        <path class="svg-thermometer-unit"
+                                            d="M374.591,287.516H344.42c-1.781,0-3.229-1.448-3.229-3.229c0-1.781,1.446-3.229,3.229-3.229h30.171
+        c1.781,0,3.229,1.448,3.229,3.229C377.821,286.067,376.371,287.516,374.591,287.516z M374.592,284.288h-30.173H374.592z"></path>
+                                        <path class="svg-thermometer-unit" d="M362.291,268.258H332.12c-1.335,0-2.421-1.086-2.421-2.422c0-1.335,1.086-2.422,2.421-2.422h30.171
+        c1.335,0,2.422,1.087,2.422,2.422S363.627,268.258,362.291,268.258z"></path>
+                                        <path class="svg-thermometer-unit"
+                                            d="M374.591,250.615H344.42c-1.781,0-3.229-1.448-3.229-3.229c0-1.781,1.446-3.229,3.229-3.229h30.171
+        c1.781,0,3.229,1.447,3.229,3.229C377.82,249.168,376.371,250.615,374.591,250.615z M374.592,247.385h-30.173H374.592z"></path>
+                                    </g>
+                                    <path class="svg-thermometer-border" d="M400,142.776c-46.444,0-84.093,37.649-84.094,84.093c0,0,0,0,0,0.001v415.6
+      c-31.978,25.562-50.593,64.271-50.594,105.205c0,74.388,60.302,134.689,134.688,134.689l0,0
+      c74.385,0,134.686-60.304,134.686-134.689c0-40.934-18.614-79.645-50.596-105.205v-415.6
+      C484.094,180.428,446.443,142.776,400,142.776z M399.9,173.581c0.032,0,0.065,0,0.1,0c29.43,0,53.289,23.86,53.289,53.292v428.938
+      c32.756,18.998,52.92,54,52.92,91.869c0,58.658-47.553,106.209-106.209,106.209c-58.659,0-106.209-47.551-106.21-106.207
+      c0-0.002,0-0.002,0-0.002c0-37.867,20.163-72.869,52.919-91.871v-428.84c0-0.033,0-0.064,0-0.098
+      C346.709,197.478,370.506,173.635,399.9,173.581z"></path>
+                                </g>
+
+                                <text class="svg-goal-textarea" dominant-baseline="middle" text-anchor="middle" x="50%"
+                                    y="90" style="display: block;">GOAL: $10,000</text>
+                                <g class="svg-percent" style="display: block; transform: translateY(-11px);">
+                                    <rect class="svg-percent-label" x="213.49795532226562" y="583.8234252929688"
+                                        width="71.50204086303711" height="67.38020706176758" fill="rgb(255, 255, 255)"
+                                        rx="14"></rect>
+                                    <polygon class="svg-percent-arrow"
+                                        points="283.99999618530273,627.5135288238525 283.99999618530273,607.5135288238525 303.99999618530273,617.5135288238525"
+                                        fill="rgb(255, 255, 255)"></polygon><text class="svg-percent-textarea"
+                                        dominant-baseline="middle" text-anchor="end" x="270" y="620"
+                                        data-value="0">3%</text>
+                                </g>
+                                <g class="svg-amount" style="display: block; transform: translateY(-11px);">
+                                    <rect class="svg-amount-label" x="515" y="583.8234252929688"
+                                        width="94.81460571289062" height="67.38020706176758" fill="rgb(255, 255, 255)"
+                                        rx="15"></rect>
+                                    <polygon class="svg-amount-arrow"
+                                        points="516,627.5135288238525 516,607.5135288238525 494,617.5135288238525"
+                                        fill="rgb(255, 255, 255)"></polygon><text class="svg-amount-textarea"
+                                        dominant-baseline="middle" text-anchor="start" x="530" y="620"
+                                        data-value="0">$300</text>
+                                </g>
+                                <!-- svg-goal-textarea -->
+                                <!-- svg-percent-textarea -->
+                                <!-- svg-amount-textarea -->
+                            </svg>
+                        </div>
+                    </div>
+
+                </div>
+
+                <script src="./resources/html2canvas.min.js.download"></script>
+                <script>
+                    function capture() {
+                        const captureElement = document.querySelector('#capture')
+                        html2canvas(captureElement)
+                            .then(canvas => {
+                                canvas.style.display = 'none'
+                                document.body.appendChild(canvas)
+                                return canvas
+                            })
+                            .then(canvas => {
+                                const image = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream')
+                                const a = document.createElement('a')
+                                a.setAttribute('download', 'thermometer.png')
+                                a.setAttribute('href', image)
+                                a.click()
+                                canvas.remove()
+                            })
+                    }
+
+                    document.querySelector('#btn');
+                    btn.addEventListener('click', capture);
+                </script>
+            </div>
+
+        </div>
+
+
+
+    </div>
+
+    <script type="text/javascript" src="./resources/jquery.min.js.download" id="jquery-core-js"></script>
+    <script type="text/javascript" id="app-js-extra">
+        /* <![CDATA[ */
+        var Causevox = { "ip_address": "97.135.100.249", "ajax": { "url": "https:\/\/www.causevox.com\/wp-admin\/admin-ajax.php", "nonce": "da6e643f36" } };
+        /* ]]> */
+    </script>
+    <script type="text/javascript" src="./resources/app.js.download" id="app-js"></script>
+    <script type="text/javascript" src="./resources/smush-lazy-load.min.js.download" id="smush-lazy-load-js"></script>
+    <script>
+        (() => {
+            const dom_wait = () => {
+                if ((document.readyState === 'interactive' || document.readyState === 'complete') && 'dom_interactive' in document === false) {
+                    document.dom_interactive = true;
+                    document.dispatchEvent(new Event('dom_interactive'));
+                }
+
+                if (document.readyState === 'complete' && 'dom_ready' in document === false) {
+                    document.dom_ready = true;
+                    document.dispatchEvent(new Event('dom_complete'));
+                }
+
+                if (document.readyState !== 'complete') {
+                    document.ready_timeout = setTimeout(dom_wait, 10);
+                }
+            };
+
+            dom_wait();
+        })();
+    </script>
+    <script>
+        document.addEventListener('dom_complete', () => {
+            function sidebar_position() {
+                document.querySelectorAll('.sidebar.jssticky').forEach((el) => {
+                    const inr = el.querySelector('.sidebar-inner');
+                    const bcr = el.getBoundingClientRect();
+                    const bcri = inr.getBoundingClientRect();
+
+                    if (bcr.y - 100 < 0) {
+                        if (bcr.height >= -(bcr.y - 100) + bcri.height) {
+                            inr.style.top = -(bcr.y - 100) + 'px';
+                        } else {
+                            inr.style.top = bcr.height - bcri.height + 'px';
+                        }
+                    } else {
+                        inr.style.top = 0;
+                    }
+                });
+            }
+
+            sidebar_position();
+
+            window.addEventListener('resize', () => {
+                sidebar_position()
+            });
+
+            window.addEventListener('scroll', () => {
+                sidebar_position()
+            });
+        });
+    </script>
+
+
+
+</body>
+
+</html>
