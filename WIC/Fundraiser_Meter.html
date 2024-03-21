@@ -25,8 +25,9 @@
             display: block;
         }
 
-        .svg-amount-textarea, .svg-percent-textarea, .svg-goal-textarea
-        {
+        .svg-amount-textarea,
+        .svg-percent-textarea,
+        .svg-goal-textarea {
             font-size: 55px !important;
         }
 
@@ -88,8 +89,6 @@
     <meta name="msapplication-TileImage"
         content="https://www.causevox.com/wp-content/uploads/2019/05/cropped-cv-logo-270x270.png">
     <script src="./resources/lottie.min.js.download" defer=""></script>
-
-
 </head>
 
 <body
@@ -152,18 +151,22 @@
                                     </div>
                                 </div>
                                 <div id="controlsRaisedAmount" class="control control-input open"><label
-                                        for="layout-1-field-progress-amount"  style="opacity: 0%;">Progress Amount</label>
+                                        for="layout-1-field-progress-amount" style="opacity: 0%;">Progress
+                                        Amount</label>
                                     <div class="input-with-helper"><input id="layout-1-field-progress-amount"
-                                            class="control-field" type="text" value="0" name="progress-amount"
-                                            placeholder="" data-validate="int" data-required=""  style="opacity: 30%;"><svg
-                                            class="helper" viewBox="0 0 24 24">
+                                            class="control-field" type="text" value="" name="progress-amount"
+                                            placeholder="" data-validate="int" data-required=""
+                                            style="opacity: 30%;"><svg class="helper" viewBox="0 0 24 24">
                                         </svg>
                                     </div>
                                 </div>
 
                                 <div>
-                                    <h2 class="has-text-align-center" style="text-align: center; color: crimson;"><strong>SCAN TO DONATE OR PLEDGE</strong></h2>
-                                    <img src=".\resources\qr.png" style="margin-left: auto; margin-right: auto;display: block; width: 90%; height: 90%;"/>
+                                    <h2 class="has-text-align-center" style="text-align: center; color: crimson;">
+                                        <strong>SCAN TO DONATE OR PLEDGE</strong>
+                                    </h2>
+                                    <img src=".\resources\qr.png"
+                                        style="margin-left: auto; margin-right: auto;display: block; width: 90%; height: 90%;" />
                                 </div>
 
                                 <div id="displayOptions" style="display: none;">
@@ -350,13 +353,61 @@
 
     </div>
 
-    <script type="text/javascript" src="./resources/jquery.min.js.download" id="jquery-core-js"></script>
+   <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
     <script type="text/javascript">
-        jQuery(document).ready(function($) {
-alert("js is working");
-});
-    </script>
+           var value =  0;
+
+        jQuery(document).ready(function ($) {
+           // $('#layout-1-field-progress-amount').val(50000);
+
+            getStats();
+           
+            $('#layout-1-field-progress-amount').val(value);
+
+        });
+
+        function getStats() {
+            var url = 'https://cors-anywhere.herokuapp.com/https://us.mohid.co/ma/worcester/wic/masjid/widget/api/index/?m=ajax_get_campaign_card_instant_details&_campaign_id=1517';
+$.ajax({
+    url: url,
+    async: false,
+    headers: {
+        'origin': 'https://sheikhnobi.github.io' // Replace with the origin of your website
+    },
+    success: function(data) {
+     
+        value = jQuery.parseJSON(data)[0].total_amount;
+        value = parseInt(value.replace('$', '').replace(',', ''))
     
+                 
+    }
+});
+
+               return;
+                $.ajax({
+                    type: "GET",
+                    cache: false,
+                    global: false,
+                    url: ajax_url,
+                    data: { _campaign_id: 1517 },
+                    dataType: "json",
+                    error: function () {
+
+                    },
+                    success: function (data) {
+                        $.each(data, function (i, det) {
+                            alert(det.total_amount);
+                          
+                        });
+                    }
+                });
+            interval = setInterval(function () {
+             
+
+            }, 5000);
+        }
+    </script>
     <script type="text/javascript" id="app-js-extra">
         /* <![CDATA[ */
         var Causevox = { "ip_address": "97.135.100.249", "ajax": { "url": "https:\/\/www.causevox.com\/wp-admin\/admin-ajax.php", "nonce": "da6e643f36" } };
