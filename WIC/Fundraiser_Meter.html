@@ -1,5 +1,5 @@
 <!-- saved from url=(0049)https://www.causevox.com/fundraising-thermometer/ -->
-<html class="js" lang="en-US">
+<html class="js" lang="en-US" style="overflow: hidden;">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -91,7 +91,7 @@
     <script src="./resources/lottie.min.js.download" defer=""></script>
 </head>
 
-<body
+<body 
     class="page-template page-template-template-themometer page-template-template-themometer-php page page-id-45387 wp-custom-logo">
     <div id="app">
         <div class="t-container wrapper container container--large_1 container--center pos-relative">
@@ -137,26 +137,18 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div id="controlsTotalAmount" class="control control-input"><label
-                                        for="layout-1-field-goal-amount">Goal
-                                        Amount</label>
+                                <div id="controlsTotalAmount" class="control control-input">
                                     <div class="input-with-helper"><input id="layout-1-field-goal-amount"
-                                            class="control-field" type="text" name="goal-amount" value="430000"
-                                            placeholder="Goal Amount" data-validate="int" data-required=""><svg
-                                            class="helper" viewBox="0 0 24 24">
-                                            <path fill="currentColor"
-                                                d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z">
-                                            </path>
+                                            class="control-field" type="text" name="goal-amount" value=""
+                                            placeholder="Goal Amount" data-validate="int" data-required="" style="opacity: 30%;"  />
                                         </svg>
                                     </div>
                                 </div>
-                                <div id="controlsRaisedAmount" class="control control-input open"><label
-                                        for="layout-1-field-progress-amount" style="opacity: 0%;">Progress
-                                        Amount</label>
+                                <div id="controlsRaisedAmount" class="control control-input open">
                                     <div class="input-with-helper"><input id="layout-1-field-progress-amount"
                                             class="control-field" type="text" value="" name="progress-amount"
-                                            placeholder="" data-validate="int" data-required=""
-                                            style="opacity: 30%;"><svg class="helper" viewBox="0 0 24 24">
+                                            placeholder="Current Progress" data-validate="int" data-required=""
+                                            style="opacity: 30%;" /> 
                                         </svg>
                                     </div>
                                 </div>
@@ -418,21 +410,60 @@
     </script>
 
     <script type="text/javascript">
-      //  var value = 0;
 
-       // jQuery(document).ready(function ($) {
-            // $('#layout-1-field-progress-amount').val(50000);
-   
-            getStats();
+        function getUrlVars() {
+            var vars = [], hash;
+            var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+            for (var i = 0; i < hashes.length; i++) {
+                hash = hashes[i].split('=');
+                vars.push(hash[0]);
+                vars[hash[0]] = hash[1];
+            }
+            return vars;
+        }
 
+
+        var goal = getUrlVars()["goal"];
+        var progress = getUrlVars()["progress"];
+
+        if (goal)
+        {
+            $('#controlsTotalAmount').hide();
+            $("#layout-1-field-goal-amount").val(goal);
             
+        }
+        else
+        {
+            $('#controlsTotalAmount').show();
+            $("#layout-1-field-goal-amount").val(250000);
+        }
 
-           // setInterval(function () { getStats();  }, 5000);
+        if (progress)
+        {
+            $('#controlsRaisedAmount').hide();
+            $('#layout-1-field-progress-amount').val(progress);
+        }
+        else
+        {
+            $('#controlsRaisedAmount').show();
+        }
 
-           //setInterval(page_refresh, 5000); //NOTE: period is passed in milliseconds
-           setTimeout("window.open(self.location, '_self');", 5*60000);
 
-     //   });
+        //  var value = 0;
+
+        // jQuery(document).ready(function ($) {
+        // $('#layout-1-field-progress-amount').val(50000);
+
+        // getStats();
+
+
+
+        // setInterval(function () { getStats();  }, 5000);
+
+        //setInterval(page_refresh, 5000); //NOTE: period is passed in milliseconds
+        //setTimeout("window.open(self.location, '_self');", 5*60000);
+
+        //   });
 
         function getStats() {
             var url = 'https://cors-anywhere.herokuapp.com/https://us.mohid.co/ma/worcester/wic/masjid/widget/api/index/?m=ajax_get_campaign_card_instant_details&_campaign_id=1517';
