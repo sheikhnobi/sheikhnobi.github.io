@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WIC Fundraiser TV</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+
+  <style>
+    :root {
+      --bg1: #070A12;
+      --bg2: #0B1B3A;
+      --card: #0E1630cc;
+      --card2: #0E163099;
+      --text: #EAF0FF;
+      --muted: #B8C4E6;
+      --accent: #6D5EF6;
+      --accent2: #28D8A3;
+      --danger: #FF4D6D;
+      --stroke: rgba(255, 255, 255, .10);
+      --shadow: 0 20px 70px rgba(0, 0, 0, .45);
+      --radius: 28px;
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      overflow: hidden;
+      color: var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background:
+        radial-gradient(1200px 600px at 15% 15%, rgba(109, 94, 246, .35), transparent 60%),
+        radial-gradient(900px 550px at 85% 20%, rgba(40, 216, 163, .25), transparent 55%),
+        linear-gradient(180deg, var(--bg1), var(--bg2));
+    }
+
+    .wrap {
+      height: 100vh;
+      padding: 36px;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 24px;
+    }
+
+    header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(30px, 3.2vw, 54px);
+      line-height: 1.05;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: clamp(14px, 1.4vw, 20px);
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .pill {
+      border: 1px solid var(--stroke);
+      background: rgba(255, 255, 255, .06);
+      padding: 6px 12px;
+      border-radius: 999px;
+      backdrop-filter: blur(10px);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 24px;
+      min-height: 0;
+    }
+
+    .card {
+      border: 1px solid var(--stroke);
+      background: linear-gradient(180deg, var(--card), var(--card2));
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 26px;
+      position: relative;
+      overflow: hidden;
+      min-height: 0;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -1px;
+      background:
+        radial-gradient(600px 250px at 10% 0%, rgba(109, 94, 246, .25), transparent 55%),
+        radial-gradient(500px 220px at 90% 10%, rgba(40, 216, 163, .18), transparent 55%);
+      pointer-events: none;
+    }
+
+    .card>* {
+      position: relative;
+      z-index: 1;
+    }
+
+    .bigLabel {
+      color: var(--muted);
+      font-size: clamp(14px, 1.5vw, 20px);
+      margin-bottom: 10px;
+    }
+
+    .bigNumber {
+      font-size: clamp(48px, 5vw, 92px);
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .goalLine {
+      display: flex;
+      gap: 16px;
+      align-items: baseline;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .goalLine .pct {
+      font-weight: 800;
+      font-size: clamp(18px, 2vw, 30px);
+    }
+
+    .goalLine .goal {
+      color: var(--muted);
+      font-size: clamp(14px, 1.5vw, 20px);
+    }
+
+    .kpis {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .kpi {
+      border: 1px solid var(--stroke);
+      background: rgba(255, 255, 255, .05);
+      border-radius: 18px;
+      padding: 14px 16px;
+    }
+
+    .klabel {
+      color: var(--muted);
+      font-size: clamp(12px, 1.2vw, 16px);
+      margin-bottom: 6px;
+    }
+
+    .kval {
+      font-weight: 800;
+      font-size: clamp(22px, 2.2vw, 34px);
+    }
+
+    .rightCol {
+      display: grid;
+      grid-template-rows: 1fr auto;
+      gap: 24px;
+      min-height: 0;
+    }
+
+    .chartBox {
+      display: grid;
+      place-items: center;
+      min-height: 0;
+    }
+
+    canvas {
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    .mini {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+      align-items: center;
+      color: var(--muted);
+      font-size: clamp(12px, 1.2vw, 16px);
+    }
+
+    .statusDot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent2);
+      box-shadow: 0 0 0 6px rgba(40, 216, 163, .15);
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+
+    .badDot {
+      background: var(--danger);
+      box-shadow: 0 0 0 6px rgba(255, 77, 109, .15);
+    }
+
+    .error {
+      color: #ffd1d8;
+    }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: rgba(255, 255, 255, .55);
+      font-size: 13px;
+      padding: 0 4px;
+    }
+
+    ::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>WIC Ramadan Fundraiser 2026</h1>
+        <div class="subtitle">
+
+          <span class="pill">Live progress</span>
+
+        </div>
+      </div>
+      <div class="subtitle" id="health"><span class="statusDot"></span>Connected</div>
+    </header>
+
+    <div class="grid">
+      <section class="card">
+        <div class="bigLabel">Total Raised</div>
+        <div class="bigNumber" id="raised">$0</div>
+
+        <div class="goalLine">
+          <div class="pct" id="pct">0%</div>
+          <div class="goal">of <span id="goal" class="pct">$0</span> goal</div>
+        </div>
+
+        <div class="kpis">
+          <div class="kpi">
+            <div class="klabel">Contributors</div>
+            <div class="kval" id="contributors">0</div>
+          </div>
+          <div class="kpi">
+            <div class="klabel">Pledgers</div>
+            <div class="kval" id="pledgers">0</div>
+          </div>
+          <div class="kpi">
+            <div class="klabel">Remaining</div>
+            <div class="kval" id="remaining">$0</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="rightCol">
+        <div class="card chartBox">
+          <canvas id="donut"></canvas>
+        </div>
+        <div class="card">
+          <div class="mini">
+            <div>
+              <span id="updatedLabel">Last updated: --</span>
+              <span id="err" class="error"></span>
+            </div>
+         
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <footer>
+
+    </footer>
+  </div>
+
+  <script>
+    // ========= CONFIG =========
+    const CONFIG = {
+      refreshMs: 30000,
+      vfrUrl: "https://us.mohid.co/ma/worcester/wic/masjid/widget/api/index/?m=vfr&campaign_id=2313",
+      // Public CORS fetcher:
+      // AllOrigins "raw" returns the fetched HTML with permissive CORS.
+      corsFetcher: (url) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`
+    };
+    //document.getElementById("refreshLabel").textContent = (CONFIG.refreshMs / 1000) + "s";
+
+    const money = (n) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(n);
+    const num = (n) => new Intl.NumberFormat("en-US").format(n);
+
+    const parseMoney = (s) => {
+      const cleaned = String(s ?? "").replace(/[^0-9.]/g, "");
+      const v = Number(cleaned);
+      return Number.isFinite(v) ? v : 0;
+    };
+
+    function setHealth(ok, message) {
+      const el = document.getElementById("health");
+      el.innerHTML = `<span class="statusDot ${ok ? "" : "badDot"}"></span>${message}`;
+    }
+    function setUpdatedNow() {
+      const d = new Date();
+      const t = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      document.getElementById("updatedLabel").textContent = `Last updated: ${t}`;
+    }
+
+    // Donut chart
+    const ctx = document.getElementById("donut");
+    const donutChart = new Chart(ctx, {
+      type: "doughnut",
+      data: {
+        labels: ["Raised", "Remaining"],
+        datasets: [{
+          data: [0, 1],
+          borderWidth: 0,
+          hoverOffset: 8,
+          backgroundColor: [
+            "rgba(109, 94, 246, 0.95)",
+            "rgba(255, 255, 255, 0.10)"
+          ]
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: "72%",
+        plugins: {
+          legend: {
+            display: true,
+            labels: {
+              color: "rgba(234, 240, 255, 0.85)",
+              boxWidth: 16,
+              padding: 16,
+              font: { size: 16, weight: "700" }
+            }
+          },
+          tooltip: {
+            callbacks: {
+              label: (c) => `${c.label}: ${money(c.parsed)}`
+            }
+          }
+        }
+      }
+    });
+
+    function sizeChartBox() {
+      const chartCard = ctx.closest(".card");
+      chartCard.style.height = Math.max(360, window.innerHeight * 0.58) + "px";
+    }
+    window.addEventListener("resize", sizeChartBox);
+    sizeChartBox();
+
+    // Extract values from the vfr page text (simple + robust)
+    function extractStatsFromText(text) {
+      // Normalize whitespace first
+      text = text.replace(/\s+/g, " ").trim();
+
+      // Raised: "$295,674raised" OR "$295,674 raised"
+      const raisedMatch = text.match(/\$[\d,]+(?:\.\d+)?(?=\s*raised)/i);
+
+      // Percentage
+      const pctMatch = text.match(/(\d{1,3})%(?=\s*of)/i);
+
+      // Goal
+      const goalMatch = text.match(/of\s*(\$[\d,]+(?:\.\d+)?)(?=\s*goal)/i);
+
+      // Contributors: "97Contributors" OR "97 Contributors"
+      const contributorsMatch = text.match(/(\d+)(?=\s*Contributors)/i);
+
+      // Pledgers
+      const pledgersMatch = text.match(/(\d+)(?=\s*Pledgers)/i);
+
+      const parseMoney = (s) => Number(String(s).replace(/[^0-9.]/g, "")) || 0;
+
+      return {
+        raised: raisedMatch ? parseMoney(raisedMatch[0]) : 0,
+        pct: pctMatch ? Number(pctMatch[1]) : 0,
+        goal: goalMatch ? parseMoney(goalMatch[1]) : 0,
+        contributors: contributorsMatch ? Number(contributorsMatch[1]) : 0,
+        pledgers: pledgersMatch ? Number(pledgersMatch[1]) : 0
+      };
+    }
+
+    async function load() {
+      document.getElementById("err").textContent = "";
+
+      try {
+        const fetchUrl = CONFIG.corsFetcher(CONFIG.vfrUrl);
+        const res = await fetch(fetchUrl, { cache: "no-store" });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+        const html = await res.text();
+
+        // Parse text content
+        const doc = new DOMParser().parseFromString(html, "text/html");
+        const text = (doc.body?.textContent || "").replace(/\s+/g, " ").trim();
+
+        const { raised, goal, pct, contributors, pledgers } = extractStatsFromText(text);
+
+        if (!goal || !raised) {
+          throw new Error("Could not parse fundraiser numbers (page format may have changed).");
+        }
+
+        const remaining = Math.max(0, goal - raised);
+        const computedPct = goal > 0 ? (raised / goal) * 100 : 0;
+        const pctToShow = (pct && pct > 0) ? pct : computedPct;
+
+        // Update UI
+        document.getElementById("raised").textContent = money(raised);
+        document.getElementById("goal").textContent = money(goal);
+        document.getElementById("pct").textContent = `${Math.min(100, pctToShow).toFixed(0)}%`;
+        document.getElementById("contributors").textContent = num(contributors);
+        document.getElementById("pledgers").textContent = num(pledgers);
+        document.getElementById("remaining").textContent = money(remaining);
+
+        donutChart.data.datasets[0].data = [raised, remaining];
+        donutChart.update();
+
+        setUpdatedNow();
+        setHealth(true, "Connected");
+      } catch (e) {
+        setHealth(false, "Connection / parse issue");
+        document.getElementById("err").textContent = ` • ${e.message}`;
+      }
+    }
+
+    load();
+    //setInterval(load, CONFIG.refreshMs);
+  </script>
+</body>
+
+</html>
