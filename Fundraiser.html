@@ -1,249 +1,316 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>WIC TV Dashboard</title>
 
   <style>
-    :root{
-      --bg0:#070A12;
-      --bg1:#0B1020;
-      --stroke:rgba(255,255,255,.10);
-      --muted:rgba(255,255,255,.70);
-      --muted2:rgba(255,255,255,.55);
-      --text:#F6F7FB;
-      --glow: 0 20px 70px rgba(0,0,0,.55);
+    :root {
+      --bg0: #070A12;
+      --bg1: #0B1020;
+      --stroke: rgba(255, 255, 255, .10);
+      --muted: rgba(255, 255, 255, .70);
+      --muted2: rgba(255, 255, 255, .55);
+      --text: #F6F7FB;
+      --glow: 0 20px 70px rgba(0, 0, 0, .55);
     }
 
-    *{box-sizing:border-box}
-    html,body{height:100%; margin:0}
+    * {
+      box-sizing: border-box
+    }
 
-    body{
-      color:var(--text);
+    html,
+    body {
+      height: 100%;
+      margin: 0
+    }
+
+    body {
+      color: var(--text);
       background:
-        radial-gradient(1200px 800px at 15% 10%, rgba(88,101,242,.22), transparent 60%),
-        radial-gradient(1200px 800px at 85% 15%, rgba(52,211,153,.18), transparent 60%),
+        radial-gradient(1200px 800px at 15% 10%, rgba(88, 101, 242, .22), transparent 60%),
+        radial-gradient(1200px 800px at 85% 15%, rgba(52, 211, 153, .18), transparent 60%),
         linear-gradient(180deg, var(--bg0), var(--bg1));
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-      overflow:hidden;
+      overflow: hidden;
     }
 
     /* ===================== TV SCALE ===================== */
-    #tvScale{
-      --tv-scale: .90;   /* default zoom level */
+    #tvScale {
+      --tv-scale: .90;
+      /* default zoom level */
       transform: scale(var(--tv-scale));
       transform-origin: top left;
       width: calc(100% / var(--tv-scale));
       height: calc(100% / var(--tv-scale));
     }
 
-    .wrap{
-      height:100%;
+    .wrap {
+      height: 100%;
       padding: clamp(18px, 2.2vw, 40px);
-      display:flex;
-      flex-direction:column;
+      display: flex;
+      flex-direction: column;
       gap: clamp(12px, 1.4vw, 22px);
     }
 
-    .topbar{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       gap: 18px;
       padding: 18px 24px;
-      border:1px solid var(--stroke);
-      border-radius:18px;
-      background:rgba(255,255,255,.04);
-      box-shadow:var(--glow);
+      border: 1px solid var(--stroke);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, .04);
+      box-shadow: var(--glow);
     }
 
-    .brand{display:flex;gap:14px;align-items:baseline}
-    .brand h1{
-      margin:0;
-      font-size:36px;
-      font-weight:800;
-      letter-spacing:.2px;
+    .brand {
+      display: flex;
+      gap: 14px;
+      align-items: baseline
     }
 
-    .pill{
-      padding:6px 12px;
-      border-radius:999px;
-      border:1px solid var(--stroke);
-      background:rgba(255,255,255,.06);
-      color:var(--muted);
-      font-size:14px;
-      white-space:nowrap;
+    .brand h1 {
+      margin: 0;
+      font-size: 36px;
+      font-weight: 800;
+      letter-spacing: .2px;
     }
 
-    .meta{
-      display:flex;gap:12px;align-items:center;color:var(--muted2);
-      font-size:14px;
-      white-space:nowrap;
+    .pill {
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--stroke);
+      background: rgba(255, 255, 255, .06);
+      color: var(--muted);
+      font-size: 14px;
+      white-space: nowrap;
     }
-    .dot{
-      width:10px;height:10px;border-radius:50%;
-      background:#fbbf24;
-      box-shadow:0 0 0 6px rgba(251,191,36,.12);
-    }
-    .dot.ok{background:#34d399;box-shadow:0 0 0 6px rgba(52,211,153,.12)}
-    .dot.bad{background:#fb7185;box-shadow:0 0 0 6px rgba(251,113,133,.12)}
 
-    .grid{
-      flex:1;
-      display:grid;
+    .meta {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      color: var(--muted2);
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #fbbf24;
+      box-shadow: 0 0 0 6px rgba(251, 191, 36, .12);
+    }
+
+    .dot.ok {
+      background: #34d399;
+      box-shadow: 0 0 0 6px rgba(52, 211, 153, .12)
+    }
+
+    .dot.bad {
+      background: #fb7185;
+      box-shadow: 0 0 0 6px rgba(251, 113, 133, .12)
+    }
+
+    .grid {
+      flex: 1;
+      display: grid;
       grid-template-columns: 1.2fr .8fr;
-      gap:22px;
-      min-height:0;
+      gap: 22px;
+      min-height: 0;
     }
 
-    .cards{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:22px;
-      min-height:0;
+    .cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      min-height: 0;
     }
 
-    .card{
-      border:1px solid var(--stroke);
-      border-radius:22px;
-      background:rgba(255,255,255,.05);
-      padding:24px;
-      box-shadow:var(--glow);
-      display:flex;
-      flex-direction:column;
-      gap:14px;
-      min-height:0;
+    .card {
+      border: 1px solid var(--stroke);
+      border-radius: 22px;
+      background: rgba(255, 255, 255, .05);
+      padding: 24px;
+      box-shadow: var(--glow);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      min-height: 0;
     }
 
-    .cardHead{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:14px;
+    .cardHead {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
     }
 
-    .card h3{
-      margin:0;
-      font-size:22px;
-      font-weight:750;
-      letter-spacing:.2px;
+    .card h3 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 750;
+      letter-spacing: .2px;
     }
 
-    .badge{
-      align-self:flex-start;
-      padding:6px 12px;
-      border-radius:999px;
-      border:1px solid var(--stroke);
-      background:rgba(0,0,0,.25);
-      color:var(--muted);
-      font-size:14px;
-      white-space:nowrap;
+    .badge {
+      align-self: flex-start;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--stroke);
+      background: rgba(0, 0, 0, .25);
+      color: var(--muted);
+      font-size: 14px;
+      white-space: nowrap;
     }
 
-    .value{
-      font-size:48px;
-      font-weight:900;
-      letter-spacing:.2px;
-      line-height:1.05;
+    .value {
+      font-size: 48px;
+      font-weight: 900;
+      letter-spacing: .2px;
+      line-height: 1.05;
     }
 
-    .statRow{
-      display:flex;
-      justify-content:space-between;
-      gap:12px;
-      color:var(--muted2);
-      font-size:16px;
+    .statRow {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted2);
+      font-size: 16px;
     }
 
-    .bar{
-      height:18px;
-      border-radius:999px;
-      border:1px solid var(--stroke);
-      background:rgba(255,255,255,.05);
-      overflow:hidden;
+    .bar {
+      height: 18px;
+      border-radius: 999px;
+      border: 1px solid var(--stroke);
+      background: rgba(255, 255, 255, .05);
+      overflow: hidden;
     }
 
-    .bar > div{
-      height:100%;
-      width:0%;
-      transition:width .7s ease;
-      border-radius:999px;
+    .bar>div {
+      height: 100%;
+      width: 0%;
+      transition: width .7s ease;
+      border-radius: 999px;
     }
 
-    .bar.op > div{background:linear-gradient(90deg,#5865f2,#818cf8)}
-    .bar.en > div{background:linear-gradient(90deg,#34d399,#6ee7b7)}
+    .bar.op>div {
+      background: linear-gradient(90deg, #5865f2, #818cf8)
+    }
+
+    .bar.en>div {
+      background: linear-gradient(90deg, #34d399, #6ee7b7)
+    }
 
     /* Right panel thermometer */
-    .panel{
-      border:1px solid var(--stroke);
-      border-radius:22px;
-      background:rgba(255,255,255,.04);
-      padding:24px;
-      box-shadow:var(--glow);
-      display:flex;
-      flex-direction:column;
-      gap:18px;
-      min-height:0;
+    .panel {
+      border: 1px solid var(--stroke);
+      border-radius: 22px;
+      background: rgba(255, 255, 255, .04);
+      padding: 24px;
+      box-shadow: var(--glow);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      min-height: 0;
     }
 
-    .panel h2{
-      margin:0;
-      font-size:20px;
-      font-weight:800;
-      letter-spacing:.2px;
+    .panel h2 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: .2px;
     }
 
-    .trackCard{
-      border:1px solid var(--stroke);
-      border-radius:16px;
-      padding:16px 18px;
-      background:rgba(255,255,255,.04);
+    .trackCard {
+      border: 1px solid var(--stroke);
+      border-radius: 16px;
+      padding: 16px 18px;
+      background: rgba(255, 255, 255, .04);
     }
 
-    .trackTop{
-      display:flex;
-      justify-content:space-between;
-      gap:12px;
-      align-items:baseline;
-      color:var(--muted);
-    }
-    .trackTop .name{font-weight:800; color:var(--text)}
-    .trackTop .pct{white-space:nowrap}
-
-    .thermo{
-      margin-top:10px;
-      height:24px;
-      border-radius:999px;
-      border:1px solid var(--stroke);
-      background:rgba(255,255,255,.05);
-      overflow:hidden;
+    .trackTop {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: baseline;
+      color: var(--muted);
     }
 
-    .fill{
-      height:100%;
-      width:0%;
-      transition:width .7s ease;
-      border-radius:999px;
+    .trackTop .name {
+      font-weight: 800;
+      color: var(--text)
     }
 
-    .fill.op{background:linear-gradient(90deg,#5865f2,#818cf8)}
-    .fill.en{background:linear-gradient(90deg,#34d399,#6ee7b7)}
-
-    .thermoMeta{
-      margin-top:10px;
-      display:flex;
-      justify-content:space-between;
-      gap:12px;
-      color:var(--muted2);
-      font-size:14px;
+    .trackTop .pct {
+      white-space: nowrap
     }
 
-    .footer{
-      margin-top:auto;
-      text-align:right;
-      font-size:14px;
-      color:var(--muted2);
+    .thermo {
+      margin-top: 10px;
+      height: 24px;
+      border-radius: 999px;
+      border: 1px solid var(--stroke);
+      background: rgba(255, 255, 255, .05);
+      overflow: hidden;
+    }
+
+    .fill {
+      height: 100%;
+      width: 0%;
+      transition: width .7s ease;
+      border-radius: 999px;
+    }
+
+    .fill.op {
+      background: linear-gradient(90deg, #5865f2, #818cf8)
+    }
+
+    .fill.en {
+      background: linear-gradient(90deg, #34d399, #6ee7b7)
+    }
+
+    .thermoMeta {
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted2);
+      font-size: 14px;
+    }
+
+    .footer {
+      margin-top: auto;
+      text-align: right;
+      font-size: 14px;
+      color: var(--muted2);
+    }
+
+    .barcodeWrap {
+      margin-top: 16px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      /* IMPORTANT: limit height so it doesn’t dominate card */
+      max-height: 200px;
+      /* adjust for TV */
+    }
+
+    .barcodeWrap img {
+      max-width: 100%;
+      max-height: 100%;
+
+      object-fit: contain;
+      /* NEVER use cover */
+      image-rendering: crisp-edges;
+      /* helps sharpness */
     }
   </style>
 </head>
@@ -279,7 +346,12 @@
               <span id="opRemaining">Remaining —</span>
               <span id="opPct">—%</span>
             </div>
-            <div class="bar op"><div id="opBar"></div></div>
+            <div class="bar op">
+              <div id="opBar"></div>
+            </div>
+            <div class="barcodeWrap">
+              <img src="barcode.png" alt="Operational Barcode">
+            </div>
           </div>
 
           <!-- Endowment -->
@@ -293,22 +365,26 @@
               <span id="enRemaining">Remaining —</span>
               <span id="enPct">—%</span>
             </div>
-            <div class="bar en"><div id="enBar"></div></div>
+            <div class="bar en">
+              <div id="enBar"></div>
+            </div>
           </div>
         </div>
 
         <!-- Right Panel -->
         <div class="panel">
-          <h2>Filled vs Remaining</h2>
+          <h2>Raised vs Remaining</h2>
 
           <div class="trackCard">
             <div class="trackTop">
               <div class="name" id="opTrackName">Operational</div>
               <div class="pct" id="opTrackPct">—%</div>
             </div>
-            <div class="thermo"><div class="fill op" id="opThermo"></div></div>
+            <div class="thermo">
+              <div class="fill op" id="opThermo"></div>
+            </div>
             <div class="thermoMeta">
-              <span id="opMetaFilled">Filled: —</span>
+              <span id="opMetaFilled">Raised: —</span>
               <span id="opMetaRemain">Remaining: —</span>
             </div>
           </div>
@@ -318,9 +394,11 @@
               <div class="name" id="enTrackName">Endowment</div>
               <div class="pct" id="enTrackPct">—%</div>
             </div>
-            <div class="thermo"><div class="fill en" id="enThermo"></div></div>
+            <div class="thermo">
+              <div class="fill en" id="enThermo"></div>
+            </div>
             <div class="thermoMeta">
-              <span id="enMetaFilled">Filled: —</span>
+              <span id="enMetaFilled">Raised: —</span>
               <span id="enMetaRemain">Remaining: —</span>
             </div>
           </div>
@@ -347,31 +425,31 @@
 
     const $ = (id) => document.getElementById(id);
 
-    function setHealth(state, msg){
+    function setHealth(state, msg) {
       const dot = $("healthDot");
-      dot.classList.remove("ok","bad");
+      dot.classList.remove("ok", "bad");
       if (state === "ok") dot.classList.add("ok");
       if (state === "bad") dot.classList.add("bad");
       $("healthText").textContent = msg;
     }
 
-    function toNumber(x){
+    function toNumber(x) {
       if (x === null || x === undefined) return NaN;
       if (typeof x === "number") return x;
-      if (typeof x === "string"){
-        const cleaned = x.replace(/[$,]/g,"").trim();
+      if (typeof x === "string") {
+        const cleaned = x.replace(/[$,]/g, "").trim();
         const n = Number(cleaned);
         return Number.isFinite(n) ? n : NaN;
       }
       return NaN;
     }
 
-    function money(n){
+    function money(n) {
       if (!Number.isFinite(n)) return "—";
-      return n.toLocaleString(undefined, { style:"currency", currency:"USD", maximumFractionDigits:0 });
+      return n.toLocaleString(undefined, { style: "currency", currency: "USD", maximumFractionDigits: 0 });
     }
 
-    function pct(raised, goal){
+    function pct(raised, goal) {
       if (!Number.isFinite(raised) || !Number.isFinite(goal) || goal <= 0) return NaN;
       return Math.max(0, Math.min(100, (raised / goal) * 100));
     }
@@ -380,7 +458,7 @@
     // - { operational: {...}, endowment: {...} }
     // - { campaigns: { operational: {...}, endowment: {...} } }
     // - { campaigns: [ {id:"operational", ...}, {id:"endowment", ...} ] }
-    function pickCampaign(data, key){
+    function pickCampaign(data, key) {
       if (!data) return null;
 
       if (data[key] && typeof data[key] === "object") return data[key];
@@ -400,7 +478,7 @@
       return null;
     }
 
-    function readFields(c){
+    function readFields(c) {
       const name = c.title || c.name || c.displayName || "";
       const goal = toNumber(c.goal ?? c.target ?? c.total ?? c.totalGoal);
       const raised = toNumber(c.raised ?? c.filled ?? c.collected ?? c.current ?? c.amountRaised);
@@ -412,7 +490,7 @@
       return { name, goal, raised, remaining };
     }
 
-    function render(prefix, fields, fallbackName){
+    function render(prefix, fields, fallbackName) {
       const name = fields.name || fallbackName;
       const goal = fields.goal;
       const raised = fields.raised;
@@ -422,35 +500,35 @@
       const pText = Number.isFinite(p) ? `${p.toFixed(1)}%` : "—%";
       const pWidth = Number.isFinite(p) ? `${p}%` : "0%";
 
-      $(prefix+"Name").textContent = name;
-      $(prefix+"Goal").textContent = Number.isFinite(goal) ? `Goal ${money(goal)}` : "Goal —";
-      $(prefix+"Raised").textContent = money(raised);
+      $(prefix + "Name").textContent = name;
+      $(prefix + "Goal").textContent = Number.isFinite(goal) ? `Goal ${money(goal)}` : "Goal —";
+      $(prefix + "Raised").textContent = money(raised);
 
-      $(prefix+"Remaining").textContent =
+      $(prefix + "Remaining").textContent =
         Number.isFinite(remaining) ? `Remaining ${money(remaining)}` : "Remaining —";
 
-      $(prefix+"Pct").textContent = pText;
-      $(prefix+"Bar").style.width = pWidth;
-      $(prefix+"Thermo").style.width = pWidth;
+      $(prefix + "Pct").textContent = pText;
+      $(prefix + "Bar").style.width = pWidth;
+      $(prefix + "Thermo").style.width = pWidth;
 
-      if (prefix === "op"){
+      if (prefix === "op") {
         $("opTrackName").textContent = name;
         $("opTrackPct").textContent = pText;
-        $("opMetaFilled").textContent = `Filled: ${money(raised)}`;
+        $("opMetaFilled").textContent = `Raised: ${money(raised)}`;
         $("opMetaRemain").textContent = `Remaining: ${money(remaining)}`;
       } else {
         $("enTrackName").textContent = name;
         $("enTrackPct").textContent = pText;
-        $("enMetaFilled").textContent = `Filled: ${money(raised)}`;
+        $("enMetaFilled").textContent = `Raised: ${money(raised)}`;
         $("enMetaRemain").textContent = `Remaining: ${money(remaining)}`;
       }
     }
 
-    async function load(){
-      try{
+    async function load() {
+      try {
         setHealth("warn", "Refreshing…");
 
-        const res = await fetch(STATUS_URL, { cache: "no-store" });
+        const res = await fetch(`${STATUS_URL}?ts=${Date.now()}`, { cache: "no-store" });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
         const data = await res.json();
@@ -458,7 +536,7 @@
         const opRaw = pickCampaign(data, "operational");
         const enRaw = pickCampaign(data, "endowment");
 
-        if (!opRaw && !enRaw){
+        if (!opRaw && !enRaw) {
           setHealth("bad", "No campaigns found");
           $("lastUpdated").textContent = "—";
           return;
@@ -475,7 +553,7 @@
         // If one is missing, show partial but warn
         if (!opRaw || !enRaw) setHealth("bad", "Missing one campaign");
         else setHealth("ok", "Live");
-      } catch (e){
+      } catch (e) {
         console.error(e);
         setHealth("bad", "Offline / fetch error");
         $("lastUpdated").textContent = "—";
@@ -486,4 +564,5 @@
     setInterval(load, REFRESH_MS);
   </script>
 </body>
+
 </html>
