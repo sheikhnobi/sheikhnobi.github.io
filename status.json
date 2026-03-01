@@ -1,11 +1,11 @@
 {
     "campaign_id":  2313,
-    "raised":  295883,
+    "raised":  296920,
     "goal":  340000,
-    "remaining":  44117,
+    "remaining":  43080,
     "pct":  87,
-    "contributors":  98,
+    "contributors":  101,
     "pledgers":  58,
-    "updated_utc":  "2026-02-28T17:17:17.0305189Z",
+    "updated_utc":  "2026-03-01T17:38:41.9481629Z",
     "source":  "mohid ajax_get_campaign_card_instant_details"
 }
