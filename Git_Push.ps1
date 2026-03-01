@@ -1,6 +1,10 @@
 ﻿param(
-  [int]$CampaignId = 2313,
-  [int]$GoalAmount = 340000,
+  # Campaigns
+  [int]$OperationalCampaignId = 2313,
+  [int]$OperationalGoalAmount = 340000,
+
+  [int]$EndowmentCampaignId   = 2314,
+  [int]$EndowmentGoalAmount   = 100000,
 
   # GitHub
   [string]$Owner = "sheikhnobi",
@@ -11,14 +15,13 @@
 
 $ErrorActionPreference = "Stop"
 
-$token = "xxxx"   # <-- your PAT
+# Token (recommend: $env:GITHUB_TOKEN)
+$token = ""
 if ([string]::IsNullOrWhiteSpace($token)) { throw "Missing GitHub token" }
 
-# HARD GUARD: PathInRepo must not be empty
+# Ensure path is set (prevents the earlier empty-path bug)
 if ([string]::IsNullOrWhiteSpace($PathInRepo)) { $PathInRepo = "status.json" }
 $PathInRepo = $PathInRepo.TrimStart("/")
-
-$mohidApi = "https://us.mohid.co/ma/worcester/wic/masjid/widget/api/index/?m=ajax_get_campaign_card_instant_details&_campaign_id=$CampaignId"
 
 function Parse-Money($v) {
   if ($null -eq $v) { return 0 }
@@ -62,7 +65,6 @@ function Invoke-GitHub([string]$Method, [string]$Url, [string]$JsonBody) {
   }
 }
 
-# If direct GET fails, list root and find sha for status.json
 function Find-Sha-From-RootListing([string]$Owner, [string]$Repo, [string]$Branch, [string]$FileName) {
   $listUrl = "https://api.github.com/repos/$Owner/$Repo/contents?ref=$Branch"
   $list = Invoke-GitHub "GET" $listUrl $null
@@ -79,8 +81,10 @@ function Find-Sha-From-RootListing([string]$Owner, [string]$Repo, [string]$Branc
   return $null
 }
 
-try {
-  Write-Host "Fetching MOHID campaign $CampaignId..."
+function Get-CampaignPayload([int]$CampaignId, [int]$GoalAmount, [string]$CampaignName) {
+  $mohidApi = "https://us.mohid.co/ma/worcester/wic/masjid/widget/api/index/?m=ajax_get_campaign_card_instant_details&_campaign_id=$CampaignId"
+
+  Write-Host "Fetching MOHID campaign $CampaignId ($CampaignName)..."
 
   $resp = Invoke-RestMethod -Method Get -Uri $mohidApi -Headers @{ "User-Agent"="WIC-TV-Dashboard/1.0" } -TimeoutSec 20
   $det = $resp
@@ -104,7 +108,8 @@ try {
 
   $remaining = [math]::Max(0, ($GoalAmount - $raised))
 
-  $payloadObj = [ordered]@{
+  return [ordered]@{
+    name         = $CampaignName
     campaign_id  = $CampaignId
     raised       = $raised
     goal         = $GoalAmount
@@ -112,19 +117,33 @@ try {
     pct          = [math]::Round($pct, 2)
     contributors = $contributors
     pledgers     = $pledgers
-    updated_utc  = (Get-Date).ToUniversalTime().ToString("o")
     source       = "mohid ajax_get_campaign_card_instant_details"
   }
+}
 
-  $json = ($payloadObj | ConvertTo-Json -Depth 5)
+try {
+  # Build combined JSON with two separate nodes
+  $nowUtc = (Get-Date).ToUniversalTime().ToString("o")
+
+  $operational = Get-CampaignPayload -CampaignId $OperationalCampaignId -GoalAmount $OperationalGoalAmount -CampaignName "Operational"
+  $endowment   = Get-CampaignPayload -CampaignId $EndowmentCampaignId   -GoalAmount $EndowmentGoalAmount   -CampaignName "Endowment"
+
+  $payloadObj = [ordered]@{
+    updated_utc = $nowUtc
+    campaigns   = [ordered]@{
+      operational = $operational
+      endowment   = $endowment
+    }
+  }
+
+  $json = ($payloadObj | ConvertTo-Json -Depth 8)
 
   # ----------------------------
   # GitHub GET current file to obtain SHA
   # ----------------------------
   #$getUrl = "https://api.github.com/repos/$Owner/$Repo/contents/$PathInRepo?ref=$Branch"
   $getUrl = "https://api.github.com/repos/$Owner/$Repo/contents/$($PathInRepo.TrimStart('/'))?ref=$Branch"
-  Write-Host "Checking existing file on GitHub ($getUrl)..."
-
+  Write-Host "Checking existing status.json on GitHub ($getUrl)..."
   $get = Invoke-GitHub "GET" $getUrl $null
   Write-Host "GET status: $($get.StatusCode)"
 
@@ -144,13 +163,12 @@ try {
     throw "GitHub GET failed ($($get.StatusCode)): $($get.Body)"
   }
 
-  # If sha is missing but file exists (your 422 scenario), pull sha from root listing
+  # Fallback SHA lookup (covers odd GET path issues / caching)
   if ([string]::IsNullOrWhiteSpace($existingSha)) {
-    $fileNameOnly = [System.IO.Path]::GetFileName($PathInRepo)
-    $existingSha = Find-Sha-From-RootListing $Owner $Repo $Branch $fileNameOnly
+    $existingSha = Find-Sha-From-RootListing $Owner $Repo $Branch ([System.IO.Path]::GetFileName($PathInRepo))
   }
 
-  # Optional skip if unchanged
+  # Optional: avoid commit if unchanged
   if ($existingContent -ne $null -and $existingContent.Trim() -eq $json.Trim()) {
     Write-Host "No change in status.json. Skipping update."
     exit 0
@@ -160,7 +178,7 @@ try {
   # GitHub PUT create/update
   # ----------------------------
   $putUrl = "https://api.github.com/repos/$Owner/$Repo/contents/$PathInRepo"
-  $commitMsg = "Update fundraiser status $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
+  $commitMsg = "Update fundraiser status (2 campaigns) $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
 
   $bodyObj = [ordered]@{
     message = $commitMsg
@@ -169,7 +187,7 @@ try {
   }
   if (-not [string]::IsNullOrWhiteSpace($existingSha)) { $bodyObj.sha = $existingSha }
 
-  $bodyJson = ($bodyObj | ConvertTo-Json -Depth 6)
+  $bodyJson = ($bodyObj | ConvertTo-Json -Depth 8)
 
   Write-Host "Updating $PathInRepo on branch '$Branch' (sha included: $([bool]$existingSha))..."
   $put = Invoke-GitHub "PUT" $putUrl $bodyJson
