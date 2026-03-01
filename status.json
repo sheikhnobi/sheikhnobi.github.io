@@ -1,5 +1,5 @@
 {
-    "updated_utc":  "2026-03-01T21:58:32.7006972Z",
+    "updated_utc":  "2026-03-01T22:28:32.7045191Z",
     "campaigns":  {
                       "operational":  {
                                           "name":  "Operational",
@@ -15,11 +15,11 @@
                       "endowment":  {
                                         "name":  "Endowment",
                                         "campaign_id":  2314,
-                                        "raised":  14151,
+                                        "raised":  14203,
                                         "goal":  100000,
-                                        "remaining":  85849,
+                                        "remaining":  85797,
                                         "pct":  14,
-                                        "contributors":  20,
+                                        "contributors":  21,
                                         "pledgers":  2,
                                         "source":  "mohid ajax_get_campaign_card_instant_details"
                                     }
