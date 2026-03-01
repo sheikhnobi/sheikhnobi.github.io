@@ -1,469 +1,489 @@
 <!doctype html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>WIC Ramadan Fundraiser</title>
-
-  <!-- Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>WIC TV Dashboard</title>
 
   <style>
-    :root {
-      --bg1: #070A12;
-      --bg2: #0B1B3A;
-      --card: #0E1630cc;
-      --card2: #0E163099;
-      --text: #EAF0FF;
-      --muted: #B8C4E6;
-      --accent: #6D5EF6;
-      --accent2: #28D8A3;
-      --warn: #FFB020;
-      --danger: #FF4D6D;
-      --stroke: rgba(255, 255, 255, .10);
-      --shadow: 0 20px 70px rgba(0, 0, 0, .45);
-      --radius: 28px;
+    :root{
+      --bg0:#070A12;
+      --bg1:#0B1020;
+      --stroke:rgba(255,255,255,.10);
+      --muted:rgba(255,255,255,.70);
+      --muted2:rgba(255,255,255,.55);
+      --text:#F6F7FB;
+      --glow: 0 20px 70px rgba(0,0,0,.55);
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    *{box-sizing:border-box}
+    html,body{height:100%; margin:0}
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      color: var(--text);
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    body{
+      color:var(--text);
       background:
-        radial-gradient(1200px 600px at 15% 15%, rgba(109, 94, 246, .35), transparent 60%),
-        radial-gradient(900px 550px at 85% 20%, rgba(40, 216, 163, .25), transparent 55%),
-        radial-gradient(1000px 600px at 50% 100%, rgba(255, 176, 32, .12), transparent 60%),
-        linear-gradient(180deg, var(--bg1), var(--bg2));
+        radial-gradient(1200px 800px at 15% 10%, rgba(88,101,242,.22), transparent 60%),
+        radial-gradient(1200px 800px at 85% 15%, rgba(52,211,153,.18), transparent 60%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      overflow:hidden;
     }
 
-    html,
-    body {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
+    /* ===================== TV SCALE ===================== */
+    #tvScale{
+      --tv-scale: .90;   /* default zoom level */
+      transform: scale(var(--tv-scale));
+      transform-origin: top left;
+      width: calc(100% / var(--tv-scale));
+      height: calc(100% / var(--tv-scale));
     }
 
-    .wrap {
-      height: 100vh;
-      padding: 36px;
-      display: grid;
-      grid-template-rows: auto 1fr auto;
-      gap: 24px;
-      /* ADD THESE */
-      transform: scale(0.80);
-      transform-origin: top center;
+    .wrap{
+      height:100%;
+      padding: clamp(18px, 2.2vw, 40px);
+      display:flex;
+      flex-direction:column;
+      gap: clamp(12px, 1.4vw, 22px);
     }
 
-    header {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 16px;
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 18px;
+      padding: 18px 24px;
+      border:1px solid var(--stroke);
+      border-radius:18px;
+      background:rgba(255,255,255,.04);
+      box-shadow:var(--glow);
     }
 
-    .title {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+    .brand{display:flex;gap:14px;align-items:baseline}
+    .brand h1{
+      margin:0;
+      font-size:36px;
+      font-weight:800;
+      letter-spacing:.2px;
     }
 
-    h1 {
-      margin: 0;
-      font-size: clamp(30px, 3.2vw, 54px);
-      letter-spacing: .2px;
-      line-height: 1.05;
+    .pill{
+      padding:6px 12px;
+      border-radius:999px;
+      border:1px solid var(--stroke);
+      background:rgba(255,255,255,.06);
+      color:var(--muted);
+      font-size:14px;
+      white-space:nowrap;
     }
 
-    .subtitle {
-      color: var(--muted);
-      font-size: clamp(14px, 1.4vw, 20px);
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      flex-wrap: wrap;
+    .meta{
+      display:flex;gap:12px;align-items:center;color:var(--muted2);
+      font-size:14px;
+      white-space:nowrap;
+    }
+    .dot{
+      width:10px;height:10px;border-radius:50%;
+      background:#fbbf24;
+      box-shadow:0 0 0 6px rgba(251,191,36,.12);
+    }
+    .dot.ok{background:#34d399;box-shadow:0 0 0 6px rgba(52,211,153,.12)}
+    .dot.bad{background:#fb7185;box-shadow:0 0 0 6px rgba(251,113,133,.12)}
+
+    .grid{
+      flex:1;
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:22px;
+      min-height:0;
     }
 
-    .pill {
-      border: 1px solid var(--stroke);
-      background: rgba(255, 255, 255, .06);
-      padding: 6px 12px;
-      border-radius: 999px;
-      backdrop-filter: blur(10px);
+    .cards{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:22px;
+      min-height:0;
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap: 24px;
-      align-items: stretch;
-      min-height: 0;
+    .card{
+      border:1px solid var(--stroke);
+      border-radius:22px;
+      background:rgba(255,255,255,.05);
+      padding:24px;
+      box-shadow:var(--glow);
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+      min-height:0;
     }
 
-    .card {
-      border: 1px solid var(--stroke);
-      background: linear-gradient(180deg, var(--card), var(--card2));
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 26px;
-      position: relative;
-      overflow: hidden;
-      min-height: 0;
+    .cardHead{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:14px;
     }
 
-    .card::before {
-      content: "";
-      position: absolute;
-      inset: -1px;
-      background:
-        radial-gradient(600px 250px at 10% 0%, rgba(109, 94, 246, .25), transparent 55%),
-        radial-gradient(500px 220px at 90% 10%, rgba(40, 216, 163, .18), transparent 55%);
-      pointer-events: none;
-      opacity: .9;
+    .card h3{
+      margin:0;
+      font-size:22px;
+      font-weight:750;
+      letter-spacing:.2px;
     }
 
-    .card>* {
-      position: relative;
-      z-index: 1;
+    .badge{
+      align-self:flex-start;
+      padding:6px 12px;
+      border-radius:999px;
+      border:1px solid var(--stroke);
+      background:rgba(0,0,0,.25);
+      color:var(--muted);
+      font-size:14px;
+      white-space:nowrap;
     }
 
-    .bigStat {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-bottom: 18px;
+    .value{
+      font-size:48px;
+      font-weight:900;
+      letter-spacing:.2px;
+      line-height:1.05;
     }
 
-    .bigLabel {
-      color: var(--muted);
-      font-size: clamp(14px, 1.5vw, 20px);
-      letter-spacing: .2px;
+    .statRow{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      color:var(--muted2);
+      font-size:16px;
     }
 
-    .bigNumber {
-      font-size: clamp(48px, 5vw, 92px);
-      font-weight: 800;
-      line-height: 1;
-      letter-spacing: .4px;
+    .bar{
+      height:18px;
+      border-radius:999px;
+      border:1px solid var(--stroke);
+      background:rgba(255,255,255,.05);
+      overflow:hidden;
     }
 
-    .goalLine {
-      display: flex;
-      gap: 16px;
-      align-items: baseline;
-      flex-wrap: wrap;
-      margin-top: 6px;
+    .bar > div{
+      height:100%;
+      width:0%;
+      transition:width .7s ease;
+      border-radius:999px;
     }
 
-    .goalLine .pct {
-      font-weight: 800;
-      font-size: clamp(18px, 2vw, 30px);
-      color: #DDE6FF;
+    .bar.op > div{background:linear-gradient(90deg,#5865f2,#818cf8)}
+    .bar.en > div{background:linear-gradient(90deg,#34d399,#6ee7b7)}
+
+    /* Right panel thermometer */
+    .panel{
+      border:1px solid var(--stroke);
+      border-radius:22px;
+      background:rgba(255,255,255,.04);
+      padding:24px;
+      box-shadow:var(--glow);
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+      min-height:0;
     }
 
-    .goalLine .goal {
-      color: var(--muted);
-      font-size: clamp(14px, 1.5vw, 20px);
+    .panel h2{
+      margin:0;
+      font-size:20px;
+      font-weight:800;
+      letter-spacing:.2px;
     }
 
-    .kpis {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 14px;
-      margin-top: 18px;
+    .trackCard{
+      border:1px solid var(--stroke);
+      border-radius:16px;
+      padding:16px 18px;
+      background:rgba(255,255,255,.04);
     }
 
-    .kpi {
-      border: 1px solid var(--stroke);
-      background: rgba(255, 255, 255, .05);
-      border-radius: 18px;
-      padding: 14px 16px;
+    .trackTop{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:baseline;
+      color:var(--muted);
+    }
+    .trackTop .name{font-weight:800; color:var(--text)}
+    .trackTop .pct{white-space:nowrap}
+
+    .thermo{
+      margin-top:10px;
+      height:24px;
+      border-radius:999px;
+      border:1px solid var(--stroke);
+      background:rgba(255,255,255,.05);
+      overflow:hidden;
     }
 
-    .kpi .klabel {
-      color: var(--muted);
-      font-size: clamp(12px, 1.2vw, 16px);
-      margin-bottom: 6px;
+    .fill{
+      height:100%;
+      width:0%;
+      transition:width .7s ease;
+      border-radius:999px;
     }
 
-    .kpi .kval {
-      font-weight: 800;
-      font-size: clamp(22px, 2.2vw, 34px);
-      letter-spacing: .2px;
+    .fill.op{background:linear-gradient(90deg,#5865f2,#818cf8)}
+    .fill.en{background:linear-gradient(90deg,#34d399,#6ee7b7)}
+
+    .thermoMeta{
+      margin-top:10px;
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      color:var(--muted2);
+      font-size:14px;
     }
 
-    .rightCol {
-      display: grid;
-      grid-template-rows: 1fr auto;
-      gap: 24px;
-      min-height: 0;
-    }
-
-    .chartBox {
-      display: grid;
-      place-items: center;
-      min-height: 0;
-    }
-
-    canvas {
-      max-width: 100%;
-      max-height: 100%;
-    }
-
-    .mini {
-      display: flex;
-      justify-content: space-between;
-      gap: 14px;
-      flex-wrap: wrap;
-      align-items: center;
-      color: var(--muted);
-      font-size: clamp(12px, 1.2vw, 16px);
-    }
-
-    .statusDot {
-      display: inline-block;
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: var(--accent2);
-      box-shadow: 0 0 0 6px rgba(40, 216, 163, .15);
-      margin-right: 8px;
-      vertical-align: middle;
-    }
-
-    .error {
-      color: #ffd1d8;
-    }
-
-    footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      color: rgba(255, 255, 255, .55);
-      font-size: 13px;
-      padding: 0 4px;
-    }
-
-    ::-webkit-scrollbar {
-      width: 0;
-      height: 0;
+    .footer{
+      margin-top:auto;
+      text-align:right;
+      font-size:14px;
+      color:var(--muted2);
     }
   </style>
 </head>
 
 <body>
-  <div class="wrap">
-    <header>
-      <div class="title">
-        <h1>WIC Ramadan Fundraiser 2026</h1>
-        <div class="subtitle">
-          <span class="pill">Live progress</span>
+  <div id="tvScale">
+    <div class="wrap">
 
-          <span class="pill">Goal: <strong id="goalPill"></strong></span>
+      <div class="topbar">
+        <div class="brand">
+          <h1>WIC Campaign Status</h1>
+          <div class="pill">TV Mode • Auto refresh</div>
+        </div>
+        <div class="meta">
+          <span class="dot" id="healthDot"></span>
+          <span id="healthText">Loading…</span>
+          <span>•</span>
+          <span id="lastUpdated">—</span>
         </div>
       </div>
 
-      <div class="subtitle">
-        <span id="health"><span class="statusDot"></span>Connected</span>
-      </div>
-    </header>
+      <div class="grid">
 
-    <div class="grid">
-      <!-- Left -->
-      <section class="card">
-        <div class="bigStat">
-          <div class="bigLabel">Total Raised</div>
-          <div class="bigNumber" id="raised">$0</div>
-
-          <div class="goalLine">
-            <div class="pct" id="pct">0%</div>
-            <div class="goal">of <span id="goal">$0</span> goal</div>
-          </div>
-        </div>
-
-        <div class="kpis">
-          <div class="kpi">
-            <div class="klabel">Contributors</div>
-            <div class="kval" id="contributors">0</div>
-          </div>
-          <div class="kpi">
-            <div class="klabel">Pledgers</div>
-            <div class="kval" id="pledgers">0</div>
-          </div>
-          <div class="kpi">
-            <div class="klabel">Remaining</div>
-            <div class="kval" id="remaining">$0</div>
-          </div>
-        </div>
-
-        <div>
-
-        <!--   <img src="barcode.png" style="height: 256px; margin-top: 24px; margin-left: 240px; opacity: .8;"  />-->
-        </div>
-      </section>
-
-      <!-- Right -->
-      <section class="rightCol">
-        <div class="card chartBox">
-          <canvas id="donut"></canvas>
-        </div>
-
-        <div class="card">
-          <div class="mini">
-            <div>
-              <span id="updatedLabel">Last updated: --</span>
-              <span id="err" class="error"></span>
+        <div class="cards">
+          <!-- Operational -->
+          <div class="card">
+            <div class="cardHead">
+              <h3 id="opName">Operational</h3>
+              <div class="badge" id="opGoal">Goal —</div>
             </div>
-            <div class="pill">Auto-refresh: <strong id="refreshLabel"></strong></div>
+            <div class="value" id="opRaised">$—</div>
+            <div class="statRow">
+              <span id="opRemaining">Remaining —</span>
+              <span id="opPct">—%</span>
+            </div>
+            <div class="bar op"><div id="opBar"></div></div>
+          </div>
+
+          <!-- Endowment -->
+          <div class="card">
+            <div class="cardHead">
+              <h3 id="enName">Endowment</h3>
+              <div class="badge" id="enGoal">Goal —</div>
+            </div>
+            <div class="value" id="enRaised">$—</div>
+            <div class="statRow">
+              <span id="enRemaining">Remaining —</span>
+              <span id="enPct">—%</span>
+            </div>
+            <div class="bar en"><div id="enBar"></div></div>
           </div>
         </div>
-      </section>
+
+        <!-- Right Panel -->
+        <div class="panel">
+          <h2>Filled vs Remaining</h2>
+
+          <div class="trackCard">
+            <div class="trackTop">
+              <div class="name" id="opTrackName">Operational</div>
+              <div class="pct" id="opTrackPct">—%</div>
+            </div>
+            <div class="thermo"><div class="fill op" id="opThermo"></div></div>
+            <div class="thermoMeta">
+              <span id="opMetaFilled">Filled: —</span>
+              <span id="opMetaRemain">Remaining: —</span>
+            </div>
+          </div>
+
+          <div class="trackCard">
+            <div class="trackTop">
+              <div class="name" id="enTrackName">Endowment</div>
+              <div class="pct" id="enTrackPct">—%</div>
+            </div>
+            <div class="thermo"><div class="fill en" id="enThermo"></div></div>
+            <div class="thermoMeta">
+              <span id="enMetaFilled">Filled: —</span>
+              <span id="enMetaRemain">Remaining: —</span>
+            </div>
+          </div>
+
+          <div class="footer">Source: status.json</div>
+        </div>
+
+      </div>
     </div>
-
-    <footer>
-
-    </footer>
   </div>
 
   <script>
-    // =========================
-    // CONFIG
-    // =========================
-    const CONFIG = {
-      campaignId: 2313,
-      refreshMs: 30000, // 30s
-      // Your published JSON
-      statusUrl: "https://sheikhnobi.github.io/status.json"
-    };
+    const STATUS_URL = "https://sheikhnobi.github.io/status.json";
+    const REFRESH_MS = 30_000;
 
-
-    document.getElementById("refreshLabel").textContent = (CONFIG.refreshMs / 1000) + "s";
-
-    const money = (n) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(n);
-    const num = (n) => new Intl.NumberFormat("en-US").format(n);
-
-    // Chart setup
-    const ctx = document.getElementById("donut");
-    const donutChart = new Chart(ctx, {
-      type: "doughnut",
-      data: {
-        labels: ["Raised", "Remaining"],
-        datasets: [{
-          data: [0, 1],
-          borderWidth: 0,
-          hoverOffset: 8,
-          backgroundColor: [
-            "rgba(109, 94, 246, 0.95)",
-            "rgba(255, 255, 255, 0.10)"
-          ]
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        cutout: "72%",
-        plugins: {
-          legend: {
-            display: true,
-            labels: {
-              color: "rgba(234, 240, 255, 0.85)",
-              boxWidth: 16,
-              padding: 16,
-              font: { size: 16, weight: "700" }
-            }
-          },
-          tooltip: {
-            callbacks: {
-              label: (context) => `${context.label}: ${money(context.parsed)}`
-            }
-          }
-        }
+    // Optional: allow URL override, e.g. ?scale=0.88
+    (() => {
+      const sp = new URLSearchParams(location.search);
+      const s = Number(sp.get("scale"));
+      if (Number.isFinite(s) && s > 0.5 && s < 1.2) {
+        document.getElementById("tvScale").style.setProperty("--tv-scale", String(s));
       }
-    });
+    })();
 
-    function sizeChartBox() {
-      const chartCard = ctx.closest(".card");
-      chartCard.style.height = Math.max(360, window.innerHeight * 0.58) + "px";
-    }
-    window.addEventListener("resize", sizeChartBox);
-    sizeChartBox();
+    const $ = (id) => document.getElementById(id);
 
-    function setHealth(ok, message) {
-      const el = document.getElementById("health");
-      const dot = ok
-        ? '<span class="statusDot"></span>'
-        : '<span class="statusDot" style="background: var(--danger); box-shadow: 0 0 0 6px rgba(255,77,109,.15)"></span>';
-      el.innerHTML = `${dot}${message}`;
+    function setHealth(state, msg){
+      const dot = $("healthDot");
+      dot.classList.remove("ok","bad");
+      if (state === "ok") dot.classList.add("ok");
+      if (state === "bad") dot.classList.add("bad");
+      $("healthText").textContent = msg;
     }
 
-    function formatUpdatedFromJson(updatedUtcIso) {
-      // If your PS job stops, this time will stop moving — very useful.
-      if (!updatedUtcIso) return null;
-      const d = new Date(updatedUtcIso);
-      if (isNaN(d.getTime())) return null;
-      return d.toLocaleString([], { hour: '2-digit', minute: '2-digit', month: 'short', day: '2-digit' });
+    function toNumber(x){
+      if (x === null || x === undefined) return NaN;
+      if (typeof x === "number") return x;
+      if (typeof x === "string"){
+        const cleaned = x.replace(/[$,]/g,"").trim();
+        const n = Number(cleaned);
+        return Number.isFinite(n) ? n : NaN;
+      }
+      return NaN;
     }
 
-    async function load() {
-      document.getElementById("err").textContent = "";
+    function money(n){
+      if (!Number.isFinite(n)) return "—";
+      return n.toLocaleString(undefined, { style:"currency", currency:"USD", maximumFractionDigits:0 });
+    }
 
-      try {
-        // cache-buster to reduce GitHub Pages caching
-        const url = `${CONFIG.statusUrl}?ts=${Date.now()}`;
-        const res = await fetch(url, { cache: "no-store" });
+    function pct(raised, goal){
+      if (!Number.isFinite(raised) || !Number.isFinite(goal) || goal <= 0) return NaN;
+      return Math.max(0, Math.min(100, (raised / goal) * 100));
+    }
+
+    // Accept multiple shapes:
+    // - { operational: {...}, endowment: {...} }
+    // - { campaigns: { operational: {...}, endowment: {...} } }
+    // - { campaigns: [ {id:"operational", ...}, {id:"endowment", ...} ] }
+    function pickCampaign(data, key){
+      if (!data) return null;
+
+      if (data[key] && typeof data[key] === "object") return data[key];
+
+      if (data.campaigns && data.campaigns[key] && typeof data.campaigns[key] === "object") {
+        return data.campaigns[key];
+      }
+
+      if (Array.isArray(data.campaigns)) {
+        const found = data.campaigns.find(c => {
+          const k = (c.id || c.key || c.slug || c.name || "").toString().toLowerCase();
+          return k === key;
+        });
+        if (found) return found;
+      }
+
+      return null;
+    }
+
+    function readFields(c){
+      const name = c.title || c.name || c.displayName || "";
+      const goal = toNumber(c.goal ?? c.target ?? c.total ?? c.totalGoal);
+      const raised = toNumber(c.raised ?? c.filled ?? c.collected ?? c.current ?? c.amountRaised);
+
+      let remaining = toNumber(c.remaining ?? c.left ?? c.amountRemaining);
+      if (!Number.isFinite(remaining) && Number.isFinite(goal) && Number.isFinite(raised)) {
+        remaining = Math.max(0, goal - raised);
+      }
+      return { name, goal, raised, remaining };
+    }
+
+    function render(prefix, fields, fallbackName){
+      const name = fields.name || fallbackName;
+      const goal = fields.goal;
+      const raised = fields.raised;
+      const remaining = fields.remaining;
+
+      const p = pct(raised, goal);
+      const pText = Number.isFinite(p) ? `${p.toFixed(1)}%` : "—%";
+      const pWidth = Number.isFinite(p) ? `${p}%` : "0%";
+
+      $(prefix+"Name").textContent = name;
+      $(prefix+"Goal").textContent = Number.isFinite(goal) ? `Goal ${money(goal)}` : "Goal —";
+      $(prefix+"Raised").textContent = money(raised);
+
+      $(prefix+"Remaining").textContent =
+        Number.isFinite(remaining) ? `Remaining ${money(remaining)}` : "Remaining —";
+
+      $(prefix+"Pct").textContent = pText;
+      $(prefix+"Bar").style.width = pWidth;
+      $(prefix+"Thermo").style.width = pWidth;
+
+      if (prefix === "op"){
+        $("opTrackName").textContent = name;
+        $("opTrackPct").textContent = pText;
+        $("opMetaFilled").textContent = `Filled: ${money(raised)}`;
+        $("opMetaRemain").textContent = `Remaining: ${money(remaining)}`;
+      } else {
+        $("enTrackName").textContent = name;
+        $("enTrackPct").textContent = pText;
+        $("enMetaFilled").textContent = `Filled: ${money(raised)}`;
+        $("enMetaRemain").textContent = `Remaining: ${money(remaining)}`;
+      }
+    }
+
+    async function load(){
+      try{
+        setHealth("warn", "Refreshing…");
+
+        const res = await fetch(STATUS_URL, { cache: "no-store" });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
-        const det = await res.json();
-        if (det.error) throw new Error(det.error);
+        const data = await res.json();
 
-        // Expecting keys produced by your PowerShell:
-        // raised, goal, remaining, pct, contributors, pledgers, updated_utc
-        const raised = Number(det.raised) || 0;
-        const goal = Number(det.goal) || 0;
-        const remaining = ("remaining" in det) ? (Number(det.remaining) || 0) : Math.max(0, goal - raised);
-        const contributors = Number(det.contributors) || 0;
-        const pledgers = Number(det.pledgers) || 0;
+        const opRaw = pickCampaign(data, "operational");
+        const enRaw = pickCampaign(data, "endowment");
 
-        let pct = Number(det.pct);
-        if (!isFinite(pct) || pct <= 0) {
-          pct = goal > 0 ? (raised / goal) * 100 : 0;
+        if (!opRaw && !enRaw){
+          setHealth("bad", "No campaigns found");
+          $("lastUpdated").textContent = "—";
+          return;
         }
 
-        // Update UI
-        document.getElementById("raised").textContent = money(raised);
-        document.getElementById("contributors").textContent = num(contributors);
-        document.getElementById("pledgers").textContent = num(pledgers);
-        document.getElementById("pct").textContent = `${Math.min(100, pct).toFixed(0)}%`;
+        if (opRaw) render("op", readFields(opRaw), "Operational");
+        if (enRaw) render("en", readFields(enRaw), "Endowment");
 
-        document.getElementById("goal").textContent = money(goal);
-        document.getElementById("goalPill").textContent = money(goal);
-        document.getElementById("remaining").textContent = money(remaining);
+        // Prefer payload timestamp if available
+        const ts = data.lastUpdated || data.updatedAt || data.timestamp || null;
+        const when = ts ? new Date(ts) : new Date();
+        $("lastUpdated").textContent = `Last updated: ${when.toLocaleString()}`;
 
-        // Update chart
-        donutChart.data.datasets[0].data = [raised, remaining];
-        donutChart.update();
-
-        // Last updated (from JSON)
-        const updatedLabel = formatUpdatedFromJson(det.updated_utc);
-        document.getElementById("updatedLabel").textContent =
-          updatedLabel ? `Last updated: ${updatedLabel}` : "Last updated: --";
-
-        setHealth(true, "Connected");
-      } catch (e) {
-        setHealth(false, "Connection issue");
-        document.getElementById("err").textContent = ` • ${e.message}`;
+        // If one is missing, show partial but warn
+        if (!opRaw || !enRaw) setHealth("bad", "Missing one campaign");
+        else setHealth("ok", "Live");
+      } catch (e){
+        console.error(e);
+        setHealth("bad", "Offline / fetch error");
+        $("lastUpdated").textContent = "—";
       }
     }
 
     load();
-    setInterval(load, CONFIG.refreshMs);
+    setInterval(load, REFRESH_MS);
   </script>
 </body>
-
 </html>
