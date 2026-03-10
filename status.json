@@ -1,14 +1,14 @@
 {
-    "updated_utc":  "2026-03-10T01:58:32.7521934Z",
+    "updated_utc":  "2026-03-10T02:28:32.7169704Z",
     "campaigns":  {
                       "operational":  {
                                           "name":  "Operational",
                                           "campaign_id":  2313,
-                                          "raised":  329232,
+                                          "raised":  329336,
                                           "goal":  340000,
-                                          "remaining":  10768,
+                                          "remaining":  10664,
                                           "pct":  97,
-                                          "contributors":  148,
+                                          "contributors":  149,
                                           "pledgers":  60,
                                           "source":  "mohid ajax_get_campaign_card_instant_details"
                                       },
