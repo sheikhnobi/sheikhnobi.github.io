@@ -1,5 +1,5 @@
 {
-    "updated_utc":  "2026-03-12T09:58:33.4786446Z",
+    "updated_utc":  "2026-03-12T10:28:32.8008379Z",
     "campaigns":  {
                       "operational":  {
                                           "name":  "Operational",
@@ -15,9 +15,9 @@
                       "endowment":  {
                                         "name":  "Endowment",
                                         "campaign_id":  2314,
-                                        "raised":  16515,
+                                        "raised":  16526,
                                         "goal":  100000,
-                                        "remaining":  83485,
+                                        "remaining":  83474,
                                         "pct":  17,
                                         "contributors":  26,
                                         "pledgers":  2,
