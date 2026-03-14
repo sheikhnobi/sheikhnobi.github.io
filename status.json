@@ -1,10 +1,10 @@
 {
-    "updated_utc":  "2026-03-14T20:28:32.9692157Z",
+    "updated_utc":  "2026-03-14T20:58:33.0466252Z",
     "campaigns":  {
                       "operational":  {
                                           "name":  "Operational",
                                           "campaign_id":  2313,
-                                          "raised":  350055,
+                                          "raised":  350699,
                                           "goal":  340000,
                                           "remaining":  0,
                                           "pct":  103,
