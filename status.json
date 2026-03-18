@@ -1,25 +1,25 @@
 {
-    "updated_utc":  "2026-03-18T08:58:32.7120645Z",
+    "updated_utc":  "2026-03-18T09:28:32.7348445Z",
     "campaigns":  {
                       "operational":  {
                                           "name":  "Operational",
                                           "campaign_id":  2313,
-                                          "raised":  361398,
+                                          "raised":  361501,
                                           "goal":  340000,
                                           "remaining":  0,
                                           "pct":  106,
-                                          "contributors":  159,
+                                          "contributors":  160,
                                           "pledgers":  63,
                                           "source":  "mohid ajax_get_campaign_card_instant_details"
                                       },
                       "endowment":  {
                                         "name":  "Endowment",
                                         "campaign_id":  2314,
-                                        "raised":  18886,
+                                        "raised":  19403,
                                         "goal":  100000,
-                                        "remaining":  81114,
+                                        "remaining":  80597,
                                         "pct":  19,
-                                        "contributors":  33,
+                                        "contributors":  34,
                                         "pledgers":  3,
                                         "source":  "mohid ajax_get_campaign_card_instant_details"
                                     }
